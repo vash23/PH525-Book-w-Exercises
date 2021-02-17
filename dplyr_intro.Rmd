@@ -1,0 +1,113 @@
+---
+layout: page
+title: Brief Introduction to `dplyr`
+---
+
+## Brief Introduction to `dplyr`
+
+The learning curve for R syntax is slow. One of the more difficult aspects that requires some getting used to is subsetting data tables. The `dplyr` package brings these tasks closer to English and we are therefore going to introduce two simple functions: one is used to subset and the other to select columns.
+
+Take a look at the dataset we read in:
+```{r}
+filename <- "femaleMiceWeights.csv"
+dat <- read.csv(filename)
+head(dat) #In R Studio use View(dat)
+```
+
+There are two types of diets, which are denoted in the first column. If we want just the weights, we only need the second column. So if we want the weights for mice on the `chow` diet, we subset and filter like this:
+
+```{r,message=FALSE}
+library(dplyr) 
+chow <- filter(dat, Diet=="chow") #keep only the ones with chow diet
+head(chow)
+```
+
+And now we can select only the column with the values:
+
+```{r}
+chowVals <- select(chow,Bodyweight)
+head(chowVals)
+```
+
+A nice feature of the `dplyr` package is that you can perform consecutive tasks by using what is called a "pipe". In `dplyr` we use `%>%` to denote a pipe. This symbol tells the program to first do one thing and then do something else to the result of the first. Hence, we can perform several data manipulations in one line. For example:
+
+```{r}
+chowVals <- filter(dat, Diet=="chow") %>% select(Bodyweight)
+```
+
+In the second task, we no longer have to specify the object we are editing since it is whatever comes from the previous call. 
+
+Also, note that if `dplyr` receives a `data.frame` it will return a `data.frame`. 
+```{r}
+class(dat)
+class(chowVals)
+```
+
+For pedagogical reasons, we will often want the final result to be a simple `numeric` vector. To obtain such a vector with `dplyr`, we can apply the `unlist` function which turns `lists`, such as `data.frames`, into `numeric` vectors:
+
+```{r}
+chowVals <- filter(dat, Diet=="chow") %>% select(Bodyweight) %>% unlist
+class( chowVals )
+```
+
+
+To do this in R without `dplyr` the code is the following:
+
+```{r}
+chowVals <- dat[ dat$Diet=="chow", colnames(dat)=="Bodyweight"]
+```
+
+Exercises:
+
+1. Read in the `msleep_ggplot2.csv` file with the function `read.csv` and use the function class to determine what type of object is returned.
+
+```{r}
+library(downloader)
+library(dplyr)
+setwd("~/Downloads/Data Analysis for Life Sciences")
+dir <- "https://raw.githubusercontent.com/genomicsclass/dagdata/master/inst/extdata/"
+filename <- "msleep_ggplot2.csv" 
+url <- paste0(dir, filename)
+if (!file.exists(filename)) download(url, destfile=filename)
+dat<-read.csv(filename)
+head(dat)
+class(dat)
+```
+
+2. Now use the filter function to select only the primates. How many animals in the table are primates? Hint: the nrow function gives you the number of rows of a data frame or matrix.
+
+```{r}
+filter(dat, order=="Primates") %>% nrow
+```
+
+3. What is the class of the object you obtain after subsetting the table to only include primates?
+
+```{r}
+class(filter(dat, order=="Primates"))
+```
+
+4. Now use the select function to extract the sleep (total) for the primates. What class is this object? Hint: use %>% to pipe the results of the filter function to select.
+
+```{r}
+filter(dat, order=="Primates") %>% select(sleep_total)
+filter(dat, order=="Primates") %>% select(sleep_total) %>% class
+```
+
+5. Now we want to calculate the average amount of sleep for primates (the average of the numbers computed above). One challenge is that the mean function requires a vector so, if we simply apply it to the output above, we get an error. Look at the help file for unlist and use it to compute the desired average.
+
+```{r}
+filter(dat, order=="Primates") %>% select(sleep_total) %>% unlist %>% mean
+```
+
+6. For the last exercise, we could also use the dplyr summarize function. We have not introduced this function, but you can read the help file and repeat exercise 5, this time using just filter and summarize to get the answer.
+
+```{r}
+filter(dat, order=="Primates") %>% summarise(mean=mean(sleep_total))
+```
+
+
+
+
+
+
+
