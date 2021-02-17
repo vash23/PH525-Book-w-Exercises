@@ -139,7 +139,6 @@ data directory of dagdata on
 [GitHub](https://github.com/genomicsclass/dagdata/tree/master/inst/extdata). If you navigate to the file, you need to click on *Raw* on the
 upper right hand corner of the page. 
 
-![GitHub page screenshot.](images/handmade/screenshot1.png)
 
 Now you can copy and paste the URL and use this as the argument to `read.csv`.
 Here we break the URL into a base directory and a filename and then combine
@@ -215,7 +214,7 @@ list.files(file.path(dir,"extdata")) #external data is in this directory
 
 And now we are ready to read in the file:
 
-```{r}
+```{r, eval=FALSE}
 filename <- file.path(dir,"extdata/femaleMiceWeights.csv")
 dat <- read.csv(filename)
 ```
@@ -264,8 +263,7 @@ dat[which(dat$Diet=='hf'),]
 mean(dat[which(dat$Diet=='hf'),2])
 ```
 
-
-One of the functions we will be using often is `sample`. Read the help file for `sample` using `?sample`. Now take a random sample of size 1 from the numbers 13 to 24 and report back the weight of the mouse represented by that row. Make sure to type `set.seed(1)` to ensure that everybody gets the same answer.
+6. One of the functions we will be using often is `sample`. Read the help file for `sample` using `?sample`. Now take a random sample of size 1 from the numbers 13 to 24 and report back the weight of the mouse represented by that row. Make sure to type `set.seed(1)` to ensure that everybody gets the same answer.
 
 ```{r}
 set.seed(1)
