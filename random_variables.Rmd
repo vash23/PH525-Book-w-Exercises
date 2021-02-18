@@ -463,6 +463,7 @@ df <- data.frame(sample_size_5 = samp_mean_5,
 
 
 ggplot(melt(df), aes(value, fill = variable)) + geom_histogram(position = "dodge")
+ggplot(melt(df), aes(value, fill = variable)) + geom_density(alpha=0.5)
 ```
 
 B
