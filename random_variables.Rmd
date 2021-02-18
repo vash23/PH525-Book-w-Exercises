@@ -385,7 +385,7 @@ mean(x)
 
 ```{r}
 set.seed(1)
-samp<-sample(x,5,replace=TRUE)
+samp<-sample(x,5)
 abs(mean(x)-mean(samp))
 ```
 
@@ -393,7 +393,7 @@ abs(mean(x)-mean(samp))
 
 ```{r}
 set.seed(5)
-samp<-sample(x,5,replace=TRUE)
+samp<-sample(x,5)
 abs(mean(x)-mean(samp))
 ```
 
@@ -412,7 +412,7 @@ set.seed(1)
 n<-1000
 samp_mean_5 <- vector("numeric",n)
 for (i in 1:n) {
-  samp_mean_5[i]<-mean(sample(x,5,replace=TRUE))
+  samp_mean_5[i]<-mean(sample(x,5))
 }
 diff_mean_5<-abs(samp_mean_5-mean(x))
 length(which(diff_mean_5>1))/length(diff_mean_5)
@@ -425,7 +425,7 @@ set.seed(1)
 n<-10000
 samp_mean_5 <- vector("numeric",n)
 for (i in 1:n) {
-  samp_mean_5[i]<-mean(sample(x,5,replace=TRUE))
+  samp_mean_5[i]<-mean(sample(x,5))
 }
 diff_mean_5<-abs(samp_mean_5-mean(x))
 length(which(diff_mean_5>1))/length(diff_mean_5)
@@ -440,7 +440,7 @@ set.seed(1)
 n<-1000
 samp_mean_50 <- vector("numeric",n)
 for (i in 1:n) {
-  samp_mean_50[i]<-mean(sample(x,50,replace=TRUE))
+  samp_mean_50[i]<-mean(sample(x,50))
 }
 diff_mean_50<-abs(samp_mean_50-mean(x))
 length(which(diff_mean_50>1))/length(diff_mean_50)
